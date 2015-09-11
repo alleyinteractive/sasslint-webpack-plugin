@@ -1,0 +1,26 @@
+{
+  "name": "sass-lint-loader",
+  "version": "0.0.1",
+  "description": "sass-lint loader for Webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alleyinteractive/sass-lint-loader.git"
+  },
+  "author": "Drew Machat <drew@alleyinteractive.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alleyinteractive/sass-lint-loader/issues"
+  },
+  "homepage": "https://github.com/alleyinteractive/sass-lint-loader#readme",
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "loader-utils": "^0.2.10",
+    "object-assign": "^3.0.0",
+    "sass-lint": "^1.2.0",
+    "text-table": "^0.2.0"
+  }
+}
