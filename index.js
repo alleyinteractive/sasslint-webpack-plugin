@@ -1,4 +1,5 @@
 // Dependencies
+var path = require('path');
 var sassLint = require('sass-lint');
 var loaderUtils = require('loader-utils');
 var assign = require('object-assign');
@@ -16,14 +17,11 @@ var formatter = require('./lib/formatter');
  * @return {void}
  */
 function lint(input, options, webpack, callback) {
-  var filename = webpack.resource.split('/').pop();
-  var format = /[^\.]*$/.exec(filename)[0];
-
   // Run sassLint
   var report = sassLint.lintText({
     'text': input,
-    'format': format,
-    'filename': filename
+    'format': path.extname(webpack.resourcePath).replace('.',  ''),
+    'filename': path.relative(process.cwd(), webpack.resourcePath)
   });
 
   if (report.messages.length) {
@@ -37,7 +35,7 @@ function lint(input, options, webpack, callback) {
     }
 
     if (report.errorCount || report.warningCount) {
-      var messages = formatter(report, webpack.resourcePath);
+      var messages = formatter(report.messages, webpack.resourcePath);
 
       // Default emitter behavior
       var emitter = report.errorCount ? webpack.emitError : webpack.emitWarning;

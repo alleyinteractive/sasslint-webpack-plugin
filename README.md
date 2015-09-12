@@ -133,6 +133,22 @@ module.exports = {
 
 ## Gotchas
 
+### ExtractTextPlugin
+`ExtractTextPlugin` will run the loaders a second time, and you will see duplicate logs. To
+disable this behavior, hide stats for child plugins.
+
+```js
+module.exports = {
+  entry: '...',
+  module: {
+    // ...
+  },
+  stats: {
+    children: false
+  }
+}
+```
+
 ### NoErrorsPlugin
 
 `NoErrorsPlugin` prevents Webpack from outputting anything into a bundle. So even sass-lint warnings
