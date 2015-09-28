@@ -18,7 +18,7 @@ module.exports = {
   module: {
     loaders: {
       {
-        test: /\.js$/,
+        test: /\s[a|c]ss$/,
         exclude: /node_modules/,
         loader: 'sasslint'
       }
@@ -36,7 +36,7 @@ module.exports = {
   module: {
     preLoaders: {
       {
-        test: /\.js$/,
+        test: /\s[a|c]ss$/,
         exclude: /node_modules/,
         loader: 'sasslint'
       }
