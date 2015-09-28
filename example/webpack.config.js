@@ -8,11 +8,21 @@ module.exports = {
     filename: 'bundle.js'
   },
 
+  sasslint: {
+    configFile: '.sass-lint.yml'
+  },
+
   module: {
-      preLoaders: [
+    preLoaders: [
+      {
+        test: /\.s[a|c]ss$/,
+        loader: path.join(__dirname, '..')
+      }
+    ],
+    loaders: [
       {
         test: /\.scss$/,
-        loader: path.join(__dirname, '..')
+        loader: 'style!css!sass'
       }
     ]
   }

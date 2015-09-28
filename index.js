@@ -22,7 +22,7 @@ function lint(input, options, webpack, callback) {
     'text': input,
     'format': path.extname(webpack.resourcePath).replace('.',  ''),
     'filename': path.relative(process.cwd(), webpack.resourcePath)
-  });
+  }, {}, options.configFile);
 
   if (report.messages.length) {
     
@@ -78,7 +78,7 @@ function lint(input, options, webpack, callback) {
 module.exports = function(input) {
   var options = assign(
     {
-      config: '.scss-lint.yml'
+      configFile: '.scss-lint.yml'
     },
     // User defaults
     this.options.sasslint || {},
