@@ -50,9 +50,9 @@ function lint(input, options, webpack, callback) {
       if (emitter) {
         emitter(messages);
         if (options.failOnError && report.errorCount) {
-          throw new Error('Module failed because of a sasslint error.');
+          throw new Error('Module failed because of a sasslint error.\n' + messages);
         } else if (options.failOnWarning && report.warningCount) {
-          throw new Error('Module failed because of a sasslint warning.');
+          throw new Error('Module failed because of a sasslint warning.\n' + messages);
         }
       } else {
         throw new Error(
