@@ -2,6 +2,8 @@
 
 > sasslint loader for webpack
 
+**Note** This loader is under development and does not yet provide line numbers for errors and warnings in SCSS/SASS source files.
+
 ## Install
 
 ```console
