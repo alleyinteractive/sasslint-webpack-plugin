@@ -50,7 +50,7 @@ module.exports = {
 
 ### Options
 
-You can pass a [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml) yml file directly by adding a `sasslint` entry in your webpack config for global options:
+You can add a [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml) yml file, by adding it in location where webpack is ran from, or by a custom path by adding a `sasslint` entry in your webpack config for global options:
 
 ```js
 module.exports = {
