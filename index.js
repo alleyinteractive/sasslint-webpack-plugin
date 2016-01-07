@@ -25,7 +25,7 @@ function lint(input, options, webpack, callback) {
   }, {}, options.configFile);
 
   if (report.messages.length) {
-    
+
     if (report.warningCount && options.quiet) {
       report.warningCount = 0;
       report.messages = report.messages
@@ -92,7 +92,6 @@ module.exports = function(input) {
 
   if (!callback) { // sync
     lint(input, options, this);
-
     return input;
   } else { // async
     try {
