@@ -1,0 +1,39 @@
+---
+extends: airbnb/base
+
+ecmaFeatures:
+  modules: true
+
+env:
+  es6: true
+  browser: false
+  node: true
+
+rules:
+  indent: [2, 2, {SwitchCase: 1}]
+  max-len: [2, 80, 4]
+  quotes: [2, "single"]
+  semi: [2, "always"]
+  no-multiple-empty-lines: [2, {"max": 1}]
+
+  comma-dangle: [2, "always-multiline"]
+  dot-location: [2, "property"]
+
+  one-var: [2, "never"]
+  no-var: [2]
+  prefer-const: [2]
+  no-bitwise: [2]
+  no-console: [0]
+
+  object-curly-spacing: [2, "always"]
+  array-bracket-spacing: [2, "always"]
+  space-unary-ops: [0]
+  space-after-keywords: [2, "always"]
+  space-before-blocks: [2, "always"]
+  space-before-function-paren: [2, "never"]
+  space-in-parens: [2, "never"]
+  spaced-comment: [2, "always"]
+  padded-blocks: [2, "never"]
+  id-length: [2, {"properties": "never", "exceptions": ["a","b","x","y","i","e","n","$"]}]
+  func-names: [0]
+  no-use-before-define: [0]

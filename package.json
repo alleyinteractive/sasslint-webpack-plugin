@@ -3,9 +3,15 @@
   "version": "0.0.1",
   "description": "sass lint loader for webpack",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [
+    "sass-lint",
+    "lint",
+    "linter",
+    "node-sass",
+    "webpack",
+    "loader",
+    "webpack-loader"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alleyinteractive/sasslint-loader.git"
@@ -17,14 +23,30 @@
   },
   "homepage": "https://github.com/alleyinteractive/sasslint-loader#readme",
   "dependencies": {
-    "chalk": "~1.1.1",
-    "css-loader": "^0.19.0",
+    "chalk": "^1.1.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "loader-utils": "~0.2.10",
     "node-sass": "^3.3.3",
     "object-assign": "~3.0.0",
-    "sass-lint": "^1.2.0",
+    "webpack": "^1.12.10"
+  },
+  "devDependencies": {
+    "file-loader": "^0.8.5",
+    "css-loader": "^0.19.0",
     "sass-loader": "^2.0.1",
     "style-loader": "^0.12.4",
-    "text-table": "~0.2.0"
+    "text-table": "^0.2.0",
+    "chai": "^3.4.1",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^3.1.0",
+    "mocha": "^2.3.4",
+    "mocha-lcov-reporter": "^1.0.0"
+  },
+  "peerDependencies": {
+    "sass-lint": "^1.4.0"
+  },
+  "scripts": {
+    "test": "mocha --harmony --full-trace --check-leaks -w",
+    "lint": "eslint lib test",
   }
 }
