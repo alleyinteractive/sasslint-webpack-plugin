@@ -1,13 +1,9 @@
 // Dependencies
-var path = require('path');
-var sassLint = require('sass-lint');
 var loaderUtils = require('loader-utils');
 var assign = require('object-assign');
 
-// Helper Utilities
-var formatter = require('./lib/formatter');
-
-var fileCache = [];
+// Modules
+var lintIter = require('./lib/linter');
 
 /**
  * Webpack Loader
@@ -31,7 +27,7 @@ module.exports = function(input) {
   var callback = this.async();
 
   if (!callback) { // sync
-    lint(input, options, this);
+    lintIter(input, options, this);
     return input;
   } else { // async
     try {
