@@ -7,6 +7,8 @@ var assign = require('object-assign');
 // Helper Utilities
 var formatter = require('./lib/formatter');
 
+var fileCache = [];
+
 /**
  * Linter
  *
@@ -69,6 +71,40 @@ function lint(input, options, webpack, callback) {
 }
 
 /**
+ * Iternate through files for linter
+ *
+ * @param {String|Buffer} input Javascript string
+ * @param {Object} config scsslint configuration
+ * @param {Object} webpack webpack instance
+ * @param {Function} callback optional callback for async loader
+ * @return {void}
+ */
+function lintIter(input, options, webpack, callback) {
+  getImportsToResolve(webpack);
+  try {
+    lint(input, options, webpack, callback);
+  } catch(e) {
+    callback(e);
+  }
+
+  // If directory name is included in the resource path, replace it with .
+}
+
+/**
+ * Webpack doesn't actually have knowledge of SCSS imports,
+ * sass-loader manually adds these in to webpack's watcher,
+ * we are taking their function from here:
+ * https://github.com/jtangelder/sass-loader/blob/master/index.js#L325-L368
+ * and modifying it to find imports for us.
+ *
+ * @param {Object} webpack webpack instance
+ */
+function getImportsToResolve(webpack) {
+  console.log(webpack.resourcePath);
+  console.log(webpack.context);
+}
+
+/**
  * Webpack Loader
  *
  * @param {String|Buffer} input JavaScript string
@@ -94,7 +130,7 @@ module.exports = function(input) {
     return input;
   } else { // async
     try {
-      lint(input, options, this, callback);
+      lintIter(input, options, this, callback);
     } catch(e) {
       callback(e);
     }
