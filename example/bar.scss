@@ -6,11 +6,11 @@
   @extend %bar;
   $secondary:green;
 
+  background: red,blue;
   color :red;
   font-size: 0.4em;
   box-shadow: .5em .5em black,
     0.1em .4em red; text-shadow: 1px 1px black;
-  background: red,blue;
 
   .bar {
     background:blue;

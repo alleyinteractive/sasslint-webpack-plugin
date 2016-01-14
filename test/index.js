@@ -142,6 +142,20 @@ describe('sasslint-loader', function () {
     });
   });
 
+  it('should work with multiple files', function(done) {
+    var config = {
+      entry: './test/testfiles/test7'
+    };
+
+    // Test should return no errors
+    pack(assign({}, extractConfig, config), function (err, stats) {
+      expect(err).to.not.exist;
+      expect(stats.compilation.errors.length).to.equal(0);
+      expect(stats.compilation.warnings.length).not.to.equal(0);
+      done(err);
+    });
+  });
+
   it('should only report once when using ExtractText', function (done) {
     var config = {
       entry: './test/testfiles/test6'
@@ -154,5 +168,5 @@ describe('sasslint-loader', function () {
       expect(stats.compilation.warnings.length).to.equal(1);
       done(err);
     });
-  })
+  });
 });

@@ -15,7 +15,7 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.scss$/,
+        test: /\.s[a|c]ss$/,
         loader: path.join(__dirname, '..')
       }
     ],
