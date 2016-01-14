@@ -47,6 +47,6 @@
   },
   "scripts": {
     "test": "mocha --harmony --full-trace --check-leaks -w",
-    "lint": "eslint lib test",
+    "lint": "eslint lib test"
   }
 }
