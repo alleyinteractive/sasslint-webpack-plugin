@@ -3,37 +3,28 @@ var loaderUtils = require('loader-utils');
 var assign = require('object-assign');
 
 // Modules
-var lintIter = require('./lib/linter');
+var linter = require('./lib/linter');
 
-/**
- * Webpack Loader
- *
- * @param {String|Buffer} input JavaScript string
- * @returns {String|Buffer} original input
- */
-module.exports = function(input) {
-  var options = assign(
-    {
-      configFile: '.scss-lint.yml'
-    },
-    // User defaults
-    this.options.sasslint || {},
-    // loader query string
-    loaderUtils.parseQuery(this.query)
-  );
+function apply(options, compiler, callback) {
+  // acces to compiler and options
+  linter(compiler.context + options.glob, options, callback);
+}
 
-  this.cacheable();
+module.exports = function(options, callback) {
+  options = options || {};
+  options.glob = options.glob || '**/*.s?(c|a)ss';
 
-  var callback = this.async();
-
-  if (!callback) { // sync
-    lintIter(input, options, this);
-    return input;
-  } else { // async
-    try {
-      lintIter(input, options, this, callback);
-    } catch(e) {
-      callback(e);
-    }
+  if (options instanceof Array) {
+    options = {
+      include: options,
+    };
   }
+
+  if (!Array.isArray(options.include)) {
+    options.include = [options.include];
+  }
+
+  return {
+    apply: apply.bind(this, options)
+  };
 };

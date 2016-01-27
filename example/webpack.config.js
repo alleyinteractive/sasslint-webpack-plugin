@@ -1,4 +1,5 @@
 var path = require('path');
+var sassLintPlugin = require(path.join(__dirname, '..'));
 
 module.exports = {
   entry: './entry.js',
@@ -8,17 +9,11 @@ module.exports = {
     filename: 'bundle.js'
   },
 
-  sasslint: {
-    configFile: '.sass-lint.yml'
-  },
+  plugins: [
+    new sassLintPlugin({ configFile: '.sass-lint.yml' }),
+  ],
 
   module: {
-    preLoaders: [
-      {
-        test: /\.s[a|c]ss$/,
-        loader: path.join(__dirname, '..')
-      }
-    ],
     loaders: [
       {
         test: /\.s[a|c]ss$/,
