@@ -1,10 +1,10 @@
-# !!! IMPORTANT !!!
+**NOTE**
 Due to how non-js files are handled via webpack, this has had to switch to a plugin instead of a loader.
-Please be aware that this will break current installs, simple change although.
+Please be aware that this will break current installs, it is a simple change from the loader to a plugin although.
 
-# sasslint-plugin
+# Sasslint Plugin
 
-> sasslint plugin for webpack
+> Ssasslint plugin for Webpack
 
 ## Install
 
@@ -30,11 +30,11 @@ module.exports = {
 
 You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml), for complete options.
 
-* configFile: You can change the config file location. Default: (`.sass-lint.yml`)
-* glob: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
-* quite: Suppress warnings, errors will still show. Default: false
-* failOnWarning: Have Webpack's build process die on warning. Default: false
-* failOnError: Have Webpack's build process die on error. Default: false
+* `configFile`: You can change the config file location. Default: (`.sass-lint.yml`)
+* `glob`: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
+* `quite`: Suppress warnings, errors will still show. Default: `false`
+* `failOnWarning`: Have Webpack's build process die on warning. Default: `false`
+* `failOnError`: Have Webpack's build process die on error. Default: `false`
 
 ```js
 // Default settings
@@ -66,4 +66,4 @@ will fail the build. No matter what error settings are used for `sasslint-loader
 So if you want to see sass-lint warnings in console during development using `WebpackDevServer`
 remove `NoErrorsPlugin` from webpack config.
 
-## [License](LICENSE)
+#### [License](LICENSE)
