@@ -10,10 +10,7 @@ rules:
   empty-line-between-blocks: 0
   no-empty-rulesets: 1
   final-newline: 1
-  no-ids: 1
-  Indentation:
-    severity: error
-    width: 2
+  no-ids: 2
   leading-zero: 1
   name-format: 0
   nesting-depth: 1
@@ -22,8 +19,8 @@ rules:
   property-spelling: 0
   nesting-depth: 0
   shorthand: 0
-  one-declaration-per-line: 1
-  single-line-per-selector: 1
+  one-declaration-per-line: 2
+  single-line-per-selector: 2
   space-after-comma: 1
   # Space surrounding colons
   space-before-colon: 1

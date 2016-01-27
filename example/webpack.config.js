@@ -10,7 +10,7 @@ module.exports = {
   },
 
   plugins: [
-    new sassLintPlugin({ failOnWarning: true }),
+    new sassLintPlugin(),
   ],
 
   module: {

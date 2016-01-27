@@ -1,6 +1,10 @@
-body {
-	font-size: 8px;
-	#test, p {
-		color: #000;
-	}
+body, #stuff {
+  display: block;
+}
+
+.item {
+  color: red;
+  test test{
+    font: red;
+  }
 }
