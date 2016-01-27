@@ -1,6 +1,6 @@
 @import 'test';
 
-#test, .bad { color: $primary; background: green; }
+.bad { color: $primary; background: green; }
 
 .foo, .waldo {
   @extend %bar;
