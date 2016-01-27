@@ -1,8 +1,10 @@
-# sasslint-loader
+# !!! IMPORTANT !!!
+Due to how non-js files are handled via webpack, this has had to switch to a plugin instead of a loader.
+Please be aware that this will break current installs, simple change although.
 
-> sasslint loader for webpack
+# sasslint-plugin
 
-**Note** This loader is under development and does not yet provide line numbers for errors and warnings in SCSS/SASS source files.
+> sasslint plugin for webpack
 
 ## Install
 
@@ -17,139 +19,44 @@ In your webpack configuration
 ```js
 module.exports = {
   // ...
-  module: {
-    loaders: {
-      {
-        test: /\s[a|c]ss$/,
-        exclude: /node_modules/,
-        loader: 'sasslint'
-      }
-    }
-  }
-  // ...
-}
-```
-
-To avoid issues with processing order, it's preferrable to use the `preLoaders` module property, so your files get linted before any other loaders are applied.
-
-```js
-module.exports = {
-  // ...
-  module: {
-    preLoaders: {
-      {
-        test: /\s[a|c]ss$/,
-        exclude: /node_modules/,
-        loader: 'sasslint'
-      }
-    }
-  }
+  plugins: [
+    new sassLintPlugin(),
+  ],
   // ...
 }
 ```
 
 ### Options
 
-You can add a [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml) yml file, by adding it in location where webpack is ran from, or by a custom path by adding a `sasslint` entry in your webpack config for global options:
+You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml), for complete options.
+
+* configFile: You can change the config file location. Default: (`.sass-lint.yml`)
+* glob: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
+* quite: Suppress warnings, errors will still show. Default: false
+* failOnWarning: Have Webpack's build process die on warning. Default: false
+* failOnError: Have Webpack's build process die on error. Default: false
 
 ```js
+// Default settings
 module.exports = {
-  sasslint: {
-    configFile: 'path/.sass-lint.yml'
-  }
+  plugins: [
+    new sassLintPlugin({
+      configFile: '.sass-lint.yml',
+      glob: '**/*.s?(a|c)ss',
+      quite: false,
+      failOnWarning: false,
+      failOnError: false
+    }),
+  ]
 }
 ```
 
 #### Errors and Warnings
 
-**By default the loader will auto adjust error reporting depending on sasslint error/warning counts.**
-You can still force this behavior by using `emitError` **or** `emitWarning` options:
+The plugin will dump full reporting of, errors and warnings.
+You can use the `quite` option to hide files which only have warnings.
+`quite` will not hide errors, nor will it hide warnings on files with errors.
 
-##### `emitError` (default: `false`)
-
-Loader will always return errors if this option is set to `true`.
-
-```js
-module.exports = {
-  entry: '...',
-  module: {
-    // ...
-  },
-  sasslint: {
-    emitError: true
-  }
-}
-```
-
-##### `emitWarning` (default: `false`)
-
-Loader will always return warnings if this option is set to `true`.
-
-##### `quiet` (default: `false`)
-
-Loader will process and report errors only and ignore warnings if this option is set to `true`.
-
-```js
-module.exports = {
-  entry: '...',
-  module: {
-    // ...
-  },
-  sasslint: {
-    quiet: true
-  }
-}
-```
-
-##### `failOnWarning` (default: `false`)
-
-Loader will cause the module build to fail if there are any sasslint warnings.
-
-```js
-module.exports = {
-  entry: '...',
-  module: {
-    // ...
-  },
-  sasslint: {
-    failOnWarning: true
-  }
-}
-```
-
-##### `failOnError` (default: `false`)
-
-Loader will cause the module build to fail if there are any sasslint errors.
-
-```js
-module.exports = {
-  entry: '...',
-  module: {
-    // ...
-  },
-  sasslint: {
-    failOnError: true
-  }
-}
-```
-
-## Gotchas
-
-### ExtractTextPlugin
-`ExtractTextPlugin` will run the loaders a second time, and you will see duplicate logs. To
-disable this behavior, hide stats for child plugins.
-
-```js
-module.exports = {
-  entry: '...',
-  module: {
-    // ...
-  },
-  stats: {
-    children: false
-  }
-}
-```
 
 ### NoErrorsPlugin
 
