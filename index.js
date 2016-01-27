@@ -7,11 +7,17 @@ var linter = require('./lib/linter');
 
 function apply(options, compiler) {
   // acces to compiler and options
-  compiler.plugin('compilation', function(c, params) {
+  compiler.plugin('compilation', function(compilation, params) {
+    // Linter returns a simple report of FilePath + Warning or Errors
     var report = linter(compiler.context + options.glob, options);
 
-    c.plugin('seal', function() {
+    // Hook into the compilation as early as possible, at the seal step
+    compilation.plugin('seal', function() {
+      // We need to keep the reference to the compilation's scope
       var _this = this;
+
+      // Errors/Warnings are pushed to the compilation's error handling
+      // so we can drop out of the processing tree on warn/error
       report.forEach(function(x) {
         if(x.error) {
           _this.errors.push(x.file);
@@ -23,8 +29,12 @@ function apply(options, compiler) {
   });
 }
 
+// makes it easier to pass and check options to the plugin thank you webpack doc
+// [https://webpack.github.io/docs/plugins.html#the-compiler-instance]
 module.exports = function(options) {
   options = options || {};
+  // Default Glob is any directory level of scss and/or sass file,
+  // under webpack's context and specificity changed via globbing patterns
   options.glob = options.glob || '**/*.s?(c|a)ss';
 
   if (options instanceof Array) {
