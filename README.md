@@ -17,6 +17,9 @@ $ npm install sasslint-loader
 In your webpack configuration
 
 ```js
+var sassLintPlugin = require('sasslint-loader');
+
+
 module.exports = {
   // ...
   plugins: [
