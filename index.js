@@ -9,7 +9,8 @@ function apply(options, compiler) {
   // acces to compiler and options
   compiler.plugin('compilation', function(compilation, params) {
     // Linter returns a simple report of FilePath + Warning or Errors
-    var report = linter(compiler.context + options.glob, options);
+    var context = options.context || compiler.context;
+    var report = linter(context + options.glob, options);
 
     // Hook into the compilation as early as possible, at the seal step
     compilation.plugin('seal', function() {
