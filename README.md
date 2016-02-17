@@ -1,15 +1,14 @@
 **NOTE**
-Due to how non-js files are handled via webpack, this has had to switch to a plugin instead of a loader.
-Please be aware that this will break current installs, it is a simple change from the loader to a plugin although.
+Due to how non-js files are handled via webpack, this has been forked from sasslint-loader and rewritten as plugin instead of a loader.
 
 # Sasslint Plugin
 
-> Ssasslint plugin for Webpack
+> Sasslint plugin for Webpack
 
 ## Install
 
 ```console
-$ npm install sasslint-loader
+$ npm install sasslint-webpack-plugin
 ```
 
 ## Usage
@@ -17,7 +16,7 @@ $ npm install sasslint-loader
 In your webpack configuration
 
 ```js
-var sassLintPlugin = require('sasslint-loader');
+var sassLintPlugin = require('sasslint-webpack-plugin');
 
 
 module.exports = {
@@ -35,7 +34,7 @@ You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint o
 
 * `configFile`: You can change the config file location. Default: (`.sass-lint.yml`)
 * `glob`: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
-* `quite`: Suppress warnings, errors will still show. Default: `false`
+* `quiet`: Suppress warnings, errors will still show. Default: `false`
 * `failOnWarning`: Have Webpack's build process die on warning. Default: `false`
 * `failOnError`: Have Webpack's build process die on error. Default: `false`
 
@@ -46,7 +45,7 @@ module.exports = {
     new sassLintPlugin({
       configFile: '.sass-lint.yml',
       glob: '**/*.s?(a|c)ss',
-      quite: false,
+      quiet: false,
       failOnWarning: false,
       failOnError: false
     }),
@@ -56,15 +55,15 @@ module.exports = {
 
 #### Errors and Warnings
 
-The plugin will dump full reporting of, errors and warnings.
-You can use the `quite` option to hide files which only have warnings.
-`quite` will not hide errors, nor will it hide warnings on files with errors.
+The plugin will dump full reporting of errors and warnings.
+You can use the `quiet` option to hide files which only have warnings.
+`quiet` will not hide errors, nor will it hide warnings on files with errors.
 
 
 ### NoErrorsPlugin
 
 `NoErrorsPlugin` prevents Webpack from outputting anything into a bundle. So even sass-lint warnings
-will fail the build. No matter what error settings are used for `sasslint-loader`.
+will fail the build. No matter what error settings are used for `sasslint-webpack-plugin`.
 
 So if you want to see sass-lint warnings in console during development using `WebpackDevServer`
 remove `NoErrorsPlugin` from webpack config.
