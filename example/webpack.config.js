@@ -3,6 +3,7 @@ var sassLintPlugin = require(path.join(__dirname, '..'));
 
 module.exports = {
   entry: './entry.js',
+  context: './',
 
   output: {
     path: path.join(__dirname, 'out'),
@@ -10,7 +11,9 @@ module.exports = {
   },
 
   plugins: [
-    new sassLintPlugin(),
+    new sassLintPlugin({
+      context: ['./', './../test/testfiles/test2/']
+    }),
   ],
 
   module: {
