@@ -28,6 +28,7 @@
     "loader-utils": "~0.2.10",
     "node-sass": "^3.3.3",
     "object-assign": "~3.0.0",
+    "text-table": "^0.2.0",
     "webpack": "^1.12.10"
   },
   "devDependencies": {
