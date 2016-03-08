@@ -33,7 +33,8 @@ module.exports = {
 You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint options](https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml), for complete options.
 
 * `configFile`: You can change the config file location. Default: (`.sass-lint.yml`)
-* `context`: Array of strings or String, Change the root of your SCSS files, by defualt inherits from webpack config.
+* `context`: Array of strings or String, Change the root of your SCSS files. Defualt inherits from webpack config.
+* `ignoreFiles`: Array of files to ignore, must be full path, Default: none
 * `glob`: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
 * `quiet`: Suppress warnings, errors will still show. Default: `false`
 * `failOnWarning`: Have Webpack's build process die on warning. Default: `false`
@@ -45,7 +46,8 @@ module.exports = {
   plugins: [
     new sassLintPlugin({
       configFile: '.sass-lint.yml',
-      context: '[inherits from webpack]',
+      context: ['inherits from webpack'],
+      ignoreFiles: [],
       glob: '**/*.s?(a|c)ss',
       quiet: false,
       failOnWarning: false,

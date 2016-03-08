@@ -45,7 +45,6 @@ module.exports = function(options) {
     options.ignoreFile = [options.ignoreFile];
   }
 
-  console.log(options.context);
   if (options.context && !Array.isArray(options.context)) {
     options.context = [options.context];
   }

@@ -12,7 +12,8 @@ module.exports = {
 
   plugins: [
     new sassLintPlugin({
-      context: ['./', './../test/testfiles/test2/']
+      context: ['./', './../test/testfiles/test2/'],
+      ignoreFiles: ['./_test.scss']
     }),
   ],
 
