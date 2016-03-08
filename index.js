@@ -41,8 +41,8 @@ module.exports = function(options) {
   // under webpack's context and specificity changed via globbing patterns
   options.glob = options.glob || '**/*.s?(c|a)ss';
 
-  if (options.ignoreFile && !Array.isArray(options.ignoreFile)) {
-    options.ignoreFile = [options.ignoreFile];
+  if (options.ignoreFiles && !Array.isArray(options.ignoreFiles)) {
+    options.ignoreFiles = [options.ignoreFiles];
   }
 
   if (options.context && !Array.isArray(options.context)) {
