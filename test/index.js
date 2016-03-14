@@ -41,7 +41,6 @@ describe('sasslint-loader', function () {
       entry: './index'
     };
 
-    // Test 1 is a perfectly valid sass file
     pack(assign({}, baseConfig, config), function (err, stats) {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(0);
@@ -56,7 +55,6 @@ describe('sasslint-loader', function () {
       entry: './index'
     };
 
-    // Test 2 should produce a warning because of the default settings
     pack(assign({}, baseConfig, config), function (err, stats) {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(0);
@@ -65,16 +63,32 @@ describe('sasslint-loader', function () {
     });
   });
 
+  it('fails on warnings', function (done) {
+    var config = {
+      context: './test/testfiles/test2',
+      entry: './index',
+      plugins: [ new sassLintPlugin({
+        failOnWarning: true
+      })]
+    };
+
+    expect(function() {
+      var compiler = webpack(assign({}, baseConfig, config));
+      compiler.outputFileSystem = outputFileSystem;
+      compiler.run();
+    }).to.throw('Failed because of a sasslint warning.\n');
+    done()
+  });
+
   it('sends errors properly', function (done) {
     var config = {
       context: './test/testfiles/test3',
       entry: './index',
       plugins: [ new sassLintPlugin({
-        configFile: path.join(__dirname, './testfiles/.sass-lint.yml')
+        configFile: path.join(__dirname, './.sass-lint.yml')
       })]
     };
 
-    // Test 3 should produce an error for the font-size units
     pack(assign({}, baseConfig, config), function (err, stats) {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(1);
@@ -83,36 +97,32 @@ describe('sasslint-loader', function () {
     });
   });
 
-  it('can specify a rule via config', function (done) {
+  it('fails on errors', function (done) {
     var config = {
-      context: './test/testfiles/test4',
+      context: './test/testfiles/test3',
       entry: './index',
       plugins: [ new sassLintPlugin({
-        rules: {
-          'property-units': [ 2, { global: [ 'px' ] } ]
-        }
+        configFile: path.join(__dirname, './.sass-lint.yml'),
+        failOnError: true
       })]
     };
 
-    // Test 4 (which is identical) should now pass
-    pack(assign({}, baseConfig, config), function (err, stats) {
-      expect(err).to.not.exist;
-      expect(stats.compilation.errors.length).to.equal(0);
-      expect(stats.compilation.warnings.length).to.equal(0);
-      done(err);
-    });
+    expect(function() {
+      var compiler = webpack(assign({}, baseConfig, config));
+      compiler.outputFileSystem = outputFileSystem;
+      compiler.run();
+    }).to.throw('Failed because of a sasslint error.\n');
+    done()
   });
-
   it('can specify a YAML config file via config', function (done) {
     var config = {
       context: './test/testfiles/test5',
       entry: './index',
       plugins: [ new sassLintPlugin({
-        configFile: path.join(__dirname, './testfiles/.sass-lint.yml')
+        configFile: path.join(__dirname, './.sass-lint.yml')
       })]
     };
 
-    // Test 3 should now pass
     pack(assign({}, baseConfig, config), function (err, stats) {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(0);
@@ -127,11 +137,44 @@ describe('sasslint-loader', function () {
       entry: './index'
     };
 
-    // Test should return no errors
     pack(assign({}, baseConfig, config), function (err, stats) {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(0);
       expect(stats.compilation.warnings.length).not.to.equal(0);
+      done(err);
+    });
+  });
+
+  it('should work with multiple context', function(done) {
+    var config = {
+      context: './test/testfiles/test5',
+      entry: './index',
+      plugins: [ new sassLintPlugin({
+        context: ['./test/testFiles/test5', './test/testFiles/test7']
+      })]
+    };
+
+    pack(assign({}, baseConfig, config), function (err, stats) {
+      expect(err).to.not.exist;
+      expect(stats.compilation.errors.length).to.equal(0);
+      expect(stats.compilation.warnings.length).not.to.equal(0);
+      done(err);
+    });
+  });
+
+  it('should allow ignoring files', function(done) {
+    var config = {
+      context: './test/testfiles/test7',
+      entry: './index',
+      plugins: [ new sassLintPlugin({
+        ignoreFiles: ['./test/testfiles/test7/_second.scss']
+      })]
+    };
+
+    pack(assign({}, baseConfig, config), function (err, stats) {
+      expect(err).to.not.exist;
+      expect(stats.compilation.errors.length).to.equal(0);
+      expect(stats.compilation.warnings.length).to.equal(0);
       done(err);
     });
   });
