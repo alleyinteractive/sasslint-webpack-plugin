@@ -1,6 +1,6 @@
 {
   "name": "sasslint-webpack-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "sass-lint plugin for webpack",
   "main": "index.js",
   "keywords": [
