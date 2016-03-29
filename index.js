@@ -37,6 +37,15 @@ function apply(options, compiler) {
   });
 }
 
+// converts options specified as a string to Array
+function parseArrayTypeOptions(options, optionNames) {
+  optionNames.forEach(function(optionName) {
+    if (typeof options[optionName] === 'string') {
+      options[optionName] = [options[optionName]];
+    }
+  });
+}
+
 // makes it easier to pass and check options to the plugin thank you webpack doc
 // [https://webpack.github.io/docs/plugins.html#the-compiler-instance]
 module.exports = function(options) {
@@ -45,17 +54,11 @@ module.exports = function(options) {
   // under webpack's context and specificity changed via globbing patterns
   options.glob = options.glob || '**/*.s?(c|a)ss';
 
-  if (options.ignoreFiles && !Array.isArray(options.ignoreFiles)) {
-    options.ignoreFiles = [options.ignoreFiles];
-  }
-
-  if (options.ignorePlugins && !Array.isArray(options.ignorePlugins)) {
-    options.ignorePlugins = [options.ignorePlugins];
-  }
-
-  if (options.context && !Array.isArray(options.context)) {
-    options.context = [options.context];
-  }
+  parseArrayTypeOptions(options, [
+    'ignoreFiles',
+    'ignorePlugins',
+    'context'
+  ]);
 
   if (options instanceof Array) {
     options = {
