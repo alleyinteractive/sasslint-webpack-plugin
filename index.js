@@ -8,6 +8,10 @@ var linter = require('./lib/linter');
 function apply(options, compiler) {
   // acces to compiler and options
   compiler.plugin('compilation', function(compilation, params) {
+    // Avoid redundant lint when it is run in plugin like extract-text-webpack-plugin.
+    if(options.ignorePlugins.indexOf(compilation.name) >= 0) {
+      return;
+    }
     // Linter returns a simple report of FilePath + Warning or Errors
     var contexts = options.context || [compiler.context];
     var report = [];
@@ -43,6 +47,10 @@ module.exports = function(options) {
 
   if (options.ignoreFiles && !Array.isArray(options.ignoreFiles)) {
     options.ignoreFiles = [options.ignoreFiles];
+  }
+
+  if (options.ignorePlugins && !Array.isArray(options.ignorePlugins)) {
+    options.ignorePlugins = [options.ignorePlugins];
   }
 
   if (options.context && !Array.isArray(options.context)) {
