@@ -10,15 +10,25 @@ var path = require('path');
 var sassLintPlugin = require(path.join(__dirname, '../index'));
 
 var outputFileSystem = new MemoryFileSystem();
-
 var baseConfig = {
   debug: false,
   output: {
     path: path.join(__dirname, 'output')
   },
+  resolve: {
+    fallback: [path.resolve(__dirname, '../node_modules/')]
+  },
   plugins: [
-    new sassLintPlugin(),
-  ]
+    new sassLintPlugin({
+      testing: true
+    }),
+  ],
+  module: {
+    loaders: [{
+      test: /\.scss$/,
+      loader: 'style-loader!css!sass'
+    }]
+  }
 };
 
 /**
@@ -37,7 +47,7 @@ function pack(testConfig, callback) {
 describe('sasslint-loader', function () {
   it('works with a simple file', function (done) {
     var config = {
-      context: './test/testfiles/test1',
+      context: path.join(__dirname, './testfiles/test1'),
       entry: './index'
     };
 
@@ -51,7 +61,7 @@ describe('sasslint-loader', function () {
 
   it('sends warnings properly', function (done) {
     var config = {
-      context: './test/testfiles/test2',
+      context: path.join(__dirname, './testfiles/test2'),
       entry: './index'
     };
 
@@ -65,9 +75,10 @@ describe('sasslint-loader', function () {
 
   it('fails on warnings', function (done) {
     var config = {
-      context: './test/testfiles/test2',
+      context: path.join(__dirname, './testfiles/test2'),
       entry: './index',
       plugins: [ new sassLintPlugin({
+        testing: true,
         failOnWarning: true
       })]
     };
@@ -82,9 +93,10 @@ describe('sasslint-loader', function () {
 
   it('sends errors properly', function (done) {
     var config = {
-      context: './test/testfiles/test3',
+      context: path.join(__dirname, './testfiles/test3'),
       entry: './index',
       plugins: [ new sassLintPlugin({
+        testing: true,
         configFile: path.join(__dirname, './.sass-lint.yml')
       })]
     };
@@ -99,9 +111,10 @@ describe('sasslint-loader', function () {
 
   it('fails on errors', function (done) {
     var config = {
-      context: './test/testfiles/test3',
+      context: path.join(__dirname, './testfiles/test3'),
       entry: './index',
       plugins: [ new sassLintPlugin({
+        testing: true,
         configFile: path.join(__dirname, './.sass-lint.yml'),
         failOnError: true
       })]
@@ -116,9 +129,10 @@ describe('sasslint-loader', function () {
   });
   it('can specify a YAML config file via config', function (done) {
     var config = {
-      context: './test/testfiles/test5',
+      context: path.join(__dirname, './testfiles/test5'),
       entry: './index',
       plugins: [ new sassLintPlugin({
+        testing: true,
         configFile: path.join(__dirname, './.sass-lint.yml')
       })]
     };
@@ -133,7 +147,7 @@ describe('sasslint-loader', function () {
 
   it('should work with multiple files', function(done) {
     var config = {
-      context: './test/testfiles/test7',
+      context: path.join(__dirname, './testfiles/test7'),
       entry: './index'
     };
 
@@ -147,9 +161,10 @@ describe('sasslint-loader', function () {
 
   it('should work with multiple context', function(done) {
     var config = {
-      context: './test/testfiles/test5',
+      context: path.join(__dirname, './testfiles/test5'),
       entry: './index',
       plugins: [ new sassLintPlugin({
+        testing: true,
         context: ['./test/testFiles/test5', './test/testFiles/test7']
       })]
     };
@@ -164,10 +179,11 @@ describe('sasslint-loader', function () {
 
   it('should allow ignoring files', function(done) {
     var config = {
-      context: './test/testfiles/test7',
+      context: path.join(__dirname, './testfiles/test7'),
       entry: './index',
       plugins: [ new sassLintPlugin({
-        ignoreFiles: ['./test/testfiles/test7/_second.scss']
+        testing: true,
+        ignoreFiles: [path.join(__dirname, './testfiles/test7/_second.scss')]
       })]
     };
 
@@ -175,6 +191,36 @@ describe('sasslint-loader', function () {
       expect(err).to.not.exist;
       expect(stats.compilation.errors.length).to.equal(0);
       expect(stats.compilation.warnings.length).to.equal(0);
+      done(err);
+    });
+  });
+
+  it('should not produce duplicate output', function(done) {
+    var config = {
+      context: path.join(__dirname, './testfiles/test2'),
+      entry: './index',
+      plugins: [
+        new sassLintPlugin({
+          testing: true,
+          ignorePlugins: ['extract-text-webpack-plugin']
+        }),
+        new ExtractTextPlugin('styles.css'),
+      ],
+      module: {
+        loaders: [{
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract('style-loader', '!css!sass')
+        }]
+      }
+    };
+
+    pack(assign({}, baseConfig, config), function (err, stats) {
+      expect(err).to.not.exist;
+
+      expect(stats.compilation.errors.length).to.equal(0);
+      expect(stats.compilation.warnings.length).to.equal(1);
+      expect(stats.compilation.children[0].errors.length).to.equal(0);
+      expect(stats.compilation.children[0].warnings.length).to.equal(0);
       done(err);
     });
   });
