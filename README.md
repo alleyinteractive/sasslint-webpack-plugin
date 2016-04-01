@@ -35,10 +35,12 @@ You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint o
 * `configFile`: You can change the config file location. Default: (`.sass-lint.yml`)
 * `context`: Array of strings or String, Change the root of your SCSS files. Defualt inherits from webpack config.
 * `ignoreFiles`: Array of files to ignore, must be full path, Default: none
+* `ignorePlugins`: Array of plugins to ignore, Default: none (example: `extract-text-webpack-plugin`)
 * `glob`: Change the glob pattern for finding files. Default: (`**/*.s?(a|c)ss`)
 * `quiet`: Suppress warnings, errors will still show. Default: `false`
 * `failOnWarning`: Have Webpack's build process die on warning. Default: `false`
 * `failOnError`: Have Webpack's build process die on error. Default: `false`
+* `testing`: Quites output normally for testing purposes, Default: 'false' **Caution** do not use this unless you are catching errors via Webpack CLI!
 
 ```js
 // Default settings
@@ -48,10 +50,12 @@ module.exports = {
       configFile: '.sass-lint.yml',
       context: ['inherits from webpack'],
       ignoreFiles: [],
+      ignorePlugins: [],
       glob: '**/*.s?(a|c)ss',
       quiet: false,
       failOnWarning: false,
-      failOnError: false
+      failOnError: false,
+      testing: false
     }),
   ]
 }
@@ -63,6 +67,9 @@ The plugin will dump full reporting of errors and warnings.
 You can use the `quiet` option to hide files which only have warnings.
 `quiet` will not hide errors, nor will it hide warnings on files with errors.
 
+### Extract Text Plugin
+
+You will can duplicate output of errors and warnings if you use the extract-text-webpack-plugin, add it to the `ignorePlugins` config option to prevent that.
 
 ### NoErrorsPlugin
 
