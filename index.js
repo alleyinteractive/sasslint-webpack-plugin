@@ -6,8 +6,15 @@ var assign = require('object-assign');
 var linter = require('./lib/linter');
 
 function apply(options, compiler) {
-  // acces to compiler and options
+  // access to compiler and options
   compiler.plugin('compilation', function(compilation, params) {
+    // Avoid redundant lint when it comes to running with other plugins
+    if (options.ignorePlugins &&
+      options.ignorePlugins.indexOf(compilation.name) > -1
+    ) {
+      return;
+    }
+
     // Linter returns a simple report of FilePath + Warning or Errors
     var contexts = options.context || [compiler.context];
     var report = [];
@@ -41,13 +48,17 @@ module.exports = function(options) {
   // under webpack's context and specificity changed via globbing patterns
   options.glob = options.glob || '**/*.s?(c|a)ss';
 
-  if (options.ignoreFiles && !Array.isArray(options.ignoreFiles)) {
-    options.ignoreFiles = [options.ignoreFiles];
-  }
+  var arrayOptions = [
+    'ignoreFiles',
+    'ignorePlugins',
+    'context'
+  ];
 
-  if (options.context && !Array.isArray(options.context)) {
-    options.context = [options.context];
-  }
+  arrayOptions.forEach(function(option) {
+    if(options[option] && typeof options[option] === 'string') {
+      options[option] = [options[option]];
+    }
+  });
 
   if (options instanceof Array) {
     options = {
