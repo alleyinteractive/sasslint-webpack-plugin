@@ -24,12 +24,10 @@
   "homepage": "https://github.com/alleyinteractive/sasslint-webpack-plugin#readme",
   "dependencies": {
     "chalk": "^1.1.1",
-    "extract-text-webpack-plugin": "^1.0.1",
     "loader-utils": "~0.2.10",
     "node-sass": "^3.3.3",
     "object-assign": "~3.0.0",
-    "text-table": "^0.2.0",
-    "webpack": "^1.12.10"
+    "text-table": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",
@@ -43,7 +41,8 @@
     "mocha-lcov-reporter": "^1.0.0",
     "sass-loader": "^2.0.1",
     "style-loader": "^0.13.1",
-    "text-table": "^0.2.0"
+    "text-table": "^0.2.0",
+    "webpack": "^1.12.10"
   },
   "peerDependencies": {
     "sass-lint": "^1.4.0"
