@@ -5,12 +5,23 @@ var assign = require('object-assign');
 // Modules
 var linter = require('./lib/linter');
 
+// Check if plugin is ignored
+function ignorePlugins(plugins, currentPlugin) {
+  return plugins.reduce(function (acc, plugin) {
+    if (currentPlugin.indexOf(plugin) > -1) {
+      return true;
+    }
+
+    return acc;
+  }, false);
+}
+
 function apply(options, compiler) {
   // access to compiler and options
   compiler.plugin('compilation', function(compilation, params) {
     // Avoid redundant lint when it comes to running with other plugins
     if (options.ignorePlugins &&
-      options.ignorePlugins.indexOf(compilation.name) > -1
+      ignorePlugins(options.ignorePlugins, compilation.name)
     ) {
       return;
     }
