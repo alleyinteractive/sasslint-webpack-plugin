@@ -8,7 +8,7 @@ var linter = require('./lib/linter');
 // Check if plugin is ignored
 function ignorePlugins(plugins, currentPlugin) {
   return plugins.reduce(function (acc, plugin) {
-    if (currentPlugin.indexOf(plugin) > -1) {
+    if (currentPlugin && currentPlugin.indexOf(plugin) > -1) {
       return true;
     }
 
