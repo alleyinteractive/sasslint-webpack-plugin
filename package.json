@@ -45,7 +45,7 @@
     "webpack": "^1.12.10"
   },
   "peerDependencies": {
-    "sass-lint": "^1.4.0"
+    "sass-lint": "^1.8.0"
   },
   "scripts": {
     "test": "mocha --harmony --full-trace --check-leaks -w",
