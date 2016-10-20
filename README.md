@@ -1,3 +1,5 @@
+> ##Notice: We are no longer actively developing (or updating) this plugin, we have switch to using Stylelint via the Webpack Plugin [here](https://github.com/vieron/stylelint-webpack-plugin).
+
 **NOTE**
 Due to how non-js files are handled via webpack, this has been forked from sasslint-loader and rewritten as plugin instead of a loader.
 
