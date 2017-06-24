@@ -43,6 +43,7 @@ You can customize the lint settings via a `.sass-lint.yml` file. See [sasslint o
 * `failOnWarning`: Have Webpack's build process die on warning. Default: `false`
 * `failOnError`: Have Webpack's build process die on error. Default: `false`
 * `testing`: Quites output normally for testing purposes, Default: 'false' **Caution** do not use this unless you are catching errors via Webpack CLI!
+* `sasslintCfg`: Parameters are passed directly to the SassLint
 
 ```js
 // Default settings
