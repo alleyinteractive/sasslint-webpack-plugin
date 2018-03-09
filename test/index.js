@@ -11,22 +11,18 @@ var sassLintPlugin = require(path.join(__dirname, '../index'));
 
 var outputFileSystem = new MemoryFileSystem();
 var baseConfig = {
-  debug: false,
   output: {
     path: path.join(__dirname, 'output')
   },
-  resolve: {
-    fallback: [path.resolve(__dirname, '../node_modules/')]
-  },
   plugins: [
     new sassLintPlugin({
-      testing: true
+      testing: true,
     }),
   ],
   module: {
     loaders: [{
       test: /\.scss$/,
-      loader: 'style-loader!css!sass'
+      loader: 'style-loader!css-loader!sass-loader'
     }]
   }
 };
@@ -209,7 +205,10 @@ describe('sasslint-loader', function () {
       module: {
         loaders: [{
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style-loader', '!css!sass')
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'sass-loader'
+          })
         }]
       }
     };

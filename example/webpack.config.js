@@ -23,7 +23,10 @@ module.exports = {
     loaders: [
       {
         test: /\.s[a|c]ss$/,
-        loader: ExtractTextPlugin.extract('style-loader', '!css!sass')
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'sass-loader',
+        })
       }
     ]
   }
